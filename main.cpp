@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include<math.h>
+#include "include/BmpLoader.h"
 const int windowWidth = 800;
 const int windowHeight = 800;
 
@@ -25,6 +26,7 @@ GLboolean bRotate = true, uRotate = true;
 
 bool light1= true, light2 = true, light3 =true;
 bool ambient =true, diffuse = true, specular = true;
+unsigned int ID;
 
 static GLfloat v_cube[8][3] =
 {
@@ -67,7 +69,19 @@ static void getNormal3p
 
     glNormal3f(Nx,Ny,Nz);
 }
-void drawCube(float colorRed, float colorGreen, float colorBlue, bool on=false)
+void LoadTexture(const char*filename)
+{
+    glGenTextures(1, &ID);
+    glBindTexture(GL_TEXTURE_2D, ID);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, ID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    BmpLoader bl(filename);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, bl.iWidth, bl.iHeight, GL_RGB, GL_UNSIGNED_BYTE, bl.textureData );
+}
+void drawCube(float colorRed=1, float colorGreen=1, float colorBlue=1, bool on=false)
 {
     GLfloat no_mat[] = { 0, 0, 0, 1.0 };
     GLfloat mat_ambient[] = { colorRed, colorGreen, colorBlue, 1.0 };
@@ -114,9 +128,13 @@ void drawCube(float colorRed, float colorGreen, float colorBlue, bool on=false)
         getNormal3p(v_cube[quadIndices[i][0]][0], v_cube[quadIndices[i][0]][1], v_cube[quadIndices[i][0]][2],
                     v_cube[quadIndices[i][1]][0], v_cube[quadIndices[i][1]][1], v_cube[quadIndices[i][1]][2],
                     v_cube[quadIndices[i][2]][0], v_cube[quadIndices[i][2]][1], v_cube[quadIndices[i][2]][2]);
+        glTexCoord2f(0,1);
         glVertex3fv(&v_cube[quadIndices[i][0]][0]);
+        glTexCoord2f(0,0);
         glVertex3fv(&v_cube[quadIndices[i][1]][0]);
+        glTexCoord2f(1,0);
         glVertex3fv(&v_cube[quadIndices[i][2]][0]);
+        glTexCoord2f(1,1);
         glVertex3fv(&v_cube[quadIndices[i][3]][0]);
     }
     glEnd();
@@ -125,12 +143,17 @@ void drawCube(float colorRed, float colorGreen, float colorBlue, bool on=false)
 void table()
 {
 /// table base
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,8);
     glPushMatrix();
     glTranslatef(0, 3, 0);
     glScalef(3, 0.5, 4);
-    drawCube(0.502, 0.000, 0.000);
+    drawCube();//(0.502, 0.000, 0.000);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// right paya back
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,7);
     glPushMatrix();
     glScalef(0.5, 3, 0.5);
     drawCube(0.627, 0.322, 0.176);
@@ -153,16 +176,22 @@ void table()
     glScalef(0.5, 3, 0.5);
     drawCube(0.627, 0.322, 0.176);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 }
 void chair()
 {
 /// chair base
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,6);
     glPushMatrix();
     glTranslatef(4, 1.5, 1);
     glScalef(1.5, 0.5, 2);
     drawCube(0.824, 0.412, 0.118);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// chair paya right back
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,7);
     glPushMatrix();
     glTranslatef(4, 0, 1);
     glScalef(0.25, 1.5, 0.25);
@@ -186,13 +215,19 @@ void chair()
     glScalef(0.25, 1.5, 0.25);
     drawCube(0.502, 0.502, 0.000);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// chair matha
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,6);
     glPushMatrix();
     glTranslatef(5.25,2.5,1);
     glScalef(0.25, 1.5, 2);
     drawCube(1.000, 0.271, 0.000);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// matha + base connector left
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,7);
     glPushMatrix();
     glTranslatef(5.25, 2, 1.25);
     glScalef(0.25, 0.5, 0.25);
@@ -204,16 +239,20 @@ void chair()
     glScalef(0.25, 0.5, 0.25);
     drawCube(0.502, 0.502, 0.000);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 
 }
 void almari()
 {
 /// main almari
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,6);
     glPushMatrix();
     glTranslatef(-18, 0, -14);
     glScalef(8.0, 10.0, 4.0);
     drawCube(1.000, 0.000, 0.000);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// border left
     glPushMatrix();
     glTranslatef(-18, 0.5, -10);
@@ -274,9 +313,8 @@ void almari()
     glScalef(0.20, 0.5, 0.20);
     drawCube(0.855, 0.647, 0.125);
     glPopMatrix();
-
 }
-void light()
+void light(float x=15)
 {
     GLfloat no_light[] = { 0.0, 0.0, 0.0, 1.0 };
 
@@ -361,7 +399,7 @@ void light()
     GLfloat light_ambient3[]  = {0.5, 0.3, 0.7, 1.0};
     GLfloat light_diffuse3[]  = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat light_specular3[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_position3[] = { -0.5, 15.0, -0.5, 1.0 };
+    GLfloat light_position3[] = { -0.5, x, -0.5, 1.0 };
 
     //glEnable( GL_LIGHT2);
     if(ambient)
@@ -397,9 +435,9 @@ void light()
 //    glLightfv( GL_LIGHT2, GL_SPECULAR, light_specular3);
     glLightfv( GL_LIGHT2, GL_POSITION, light_position3);
 
-    GLfloat spot_direction[] = { 0.0, -1.0, 0.0 };
+    GLfloat spot_direction[] = { 0.0, -15.0, 0.0 };
     glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spot_direction);
-    glLightf( GL_LIGHT2, GL_SPOT_CUTOFF, 45.0);
+    glLightf( GL_LIGHT2, GL_SPOT_CUTOFF, 60.0);
 }
 
 void fan()
@@ -457,11 +495,14 @@ void fan()
 void clock()
 {
 /// body
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,1);
     glPushMatrix();
     glTranslatef(-19.25,14,-2.5);
     glScalef(0.5,4.0,5.0);
     drawCube(0.902, 0.902, 0.980);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// center
     glPushMatrix();
     glTranslatef(-18.75,16,-0.25);
@@ -499,18 +540,26 @@ void display(void)
     glViewport(0, 0, windowHeight, windowWidth);
     glRotatef(rot,0,1,0);
 /// Floor
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,3);
     glPushMatrix();
     glTranslatef(-20, -1, -15);
     glScalef(40.0, 1.0, 30.0);
     drawCube(0.878, 1.000, 1.000);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// Front Wall
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,4);
     glPushMatrix();
     glTranslatef(-20.0,0, -15);
     glScalef(1.0, 20.0, 30.0);
     drawCube(0.000, 0.392, 0.000);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// Right Wall
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,1);
     glPushMatrix();
     glTranslatef(-20, 0, -15);
     glScalef(40.0, 7.0, 1.0);
@@ -555,24 +604,34 @@ void display(void)
     glScalef(5.5,6,-0.5);
     drawCube(1.000, 1.000, 1.000);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// Left Wall
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,3);
     glPushMatrix();
     glTranslatef(-20, 0, 14);
     glScalef(40.0, 20.0, 1.0);
     drawCube(0.000, 0.000, 0.502);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// Top Wall
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,3);
     glPushMatrix();
     glTranslatef(-20, 20, -15);
     glScalef(40.0, 1.0, 30.0);
     drawCube(0.502, 0.502, 0.502);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// blackboard
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,5);
     glPushMatrix();
     glTranslatef(-19.5,5, -7.5);
     glScalef(1.0, 8.0, 15.0);
-    drawCube(0,0,0);
+    drawCube();//(0,0,0);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 
     glPushMatrix();
     glTranslatef(0,0,-2);
@@ -733,11 +792,14 @@ void display(void)
     drawCube(0, 0.000, 0000);
     glPopMatrix();
 /// stage
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,4);
     glPushMatrix();
     glTranslatef(-18.5, 0, -9.0);
-    glScalef(7,1,20);
+    glScalef(7,0.3,20);
     drawCube(0.184, 0.310, 0.310);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 
     glFlush();
     glutSwapBuffers();
@@ -896,9 +958,20 @@ int main(int argc, char *argv[])
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
-    glutInitWindowPosition(0,0);
+    glutInitWindowPosition(100,100);
     glutInitWindowSize(windowHeight, windowWidth);
-    glutCreateWindow("Lighting Assignment 1607032");
+    glutCreateWindow("ClassRoom Design OpenGL");
+
+    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\wall7.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\wall2.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\wall4.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\wall8.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\bb3.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\test2.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\leg1.bmp");
+    //LoadTexture("F:\\Study\\4.2\\lab\\lab 02 assignment\\Lab03Assignment\\BMP\\test.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\leg3.bmp");
+
 
     glShadeModel( GL_SMOOTH );
     glEnable( GL_DEPTH_TEST );
@@ -909,10 +982,10 @@ int main(int argc, char *argv[])
     glutDisplayFunc(display);
     glutIdleFunc(idle);
     glutIdleFunc(animate);
-    //light(12);
-    light();
+    light(15);
+    //light();
     //light(5);
-    printf("\n\n\n\t\t\Lighting Assignment 1607032\n\n\n");
+    printf("\n\n\n\t\tLighting Assignment 1607032\n\n\n");
     printf("1. Use 'w' to look up, 's' to look down, 'd' to look right, and 'a' to look left, 'e'/'r' to zoom\n\n");
     printf("2. Use '+'/'-' to rotate.\n\n\n");
     printf("3. Use 'f' to on/off fan.\n\n\n");
