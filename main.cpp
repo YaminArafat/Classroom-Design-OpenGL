@@ -9,9 +9,9 @@
 const int windowWidth = 800;
 const int windowHeight = 800;
 
-GLfloat eyeX = 0;
-GLfloat eyeY = 12;
-GLfloat eyeZ = 13;
+GLfloat eyeX = 23;
+GLfloat eyeY = 15;
+GLfloat eyeZ = 0;
 
 GLfloat lookX = 0;
 GLfloat lookY = 0;
@@ -444,13 +444,13 @@ void fan()
 {
 /// fan base
     glPushMatrix();
-    glTranslatef(0, 19.5, -0.25);
+    glTranslatef(0, 19.5, -0.375);
     glScalef(0.5,0.5,0.5);
     drawCube(0,0,0);
     glPopMatrix();
 /// fan connector
     glPushMatrix();
-    glTranslatef(0.10, 18, -0.125);
+    glTranslatef(0.10, 18.25, -0.25);
     glScalef(0.25,1.5,0.25);
     drawCube(0.663, 0.663, 0.663);
     glPopMatrix();
@@ -459,37 +459,49 @@ void fan()
     glRotatef(theta,0, 1, 0);
     glTranslatef(-0.25, 0,0);
 /// fan engine
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,5);
     glPushMatrix();
-    glTranslatef(-0.25, 17, -0.5);
+    glTranslatef(-0.25, 18, -0.5);
+    glScalef(1,0.5,1);
     drawCube(1, 0.0, 0.0);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// fan blade 1
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,4);
     glPushMatrix();
-    glTranslatef(0, 17.25, -0.25);
+    glTranslatef(0, 18.2, -0.25);
     //glRotatef(rotFan,0,1,0);
     //glRotatef( alpha, 0, 1, 0.0 );
-    glScalef(5,0.5,0.5);
-    drawCube(1.000, 0.843, 0.000);
+    glScalef(5,0.1,0.5);
+    drawCube(0,0,0);//(1.000, 0.843, 0.000);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// fan blade 2
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,4);
     glPushMatrix();
-    glTranslatef(0.5, 17.25, 0.25);
+    glTranslatef(0.5, 18.2, 0.25);
     glRotatef(-120,0,1,0);
     //glRotatef(rotFan,0,1,0);
     //glRotatef( alpha, 0, 1, 0.0 );
-    glScalef(5,0.5,0.5);
-    drawCube(1.000, 0.843, 0.000);
+    glScalef(5,0.1,0.5);
+    drawCube(0,0,0);//(1.000, 0.843, 0.000);
     glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 /// fan blade 3
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,4);
     glPushMatrix();
-    glTranslatef(0.1, 17.25, 0);
+    glTranslatef(0.1, 18.2, 0);
     glRotatef(-240,0,1,0);
     //glRotatef(rotFan,0,1,0);
     //glRotatef( alpha, 0, 1, 0.0 );
-    glScalef(5,0.5,0.5);
-    drawCube(1.000, 0.843, 0.000);
+    glScalef(5,0.1,0.5);
+    drawCube(0,0,0);//(1.000, 0.843, 0.000);
     glPopMatrix();
-
+    glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 }
 void clock()
@@ -544,7 +556,7 @@ void display(void)
     glBindTexture(GL_TEXTURE_2D,3);
     glPushMatrix();
     glTranslatef(-20, -1, -15);
-    glScalef(40.0, 1.0, 30.0);
+    glScalef(50.0, 1.0, 30.0);
     drawCube(0.878, 1.000, 1.000);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
@@ -562,7 +574,7 @@ void display(void)
     glBindTexture(GL_TEXTURE_2D,1);
     glPushMatrix();
     glTranslatef(-20, 0, -15);
-    glScalef(40.0, 7.0, 1.0);
+    glScalef(50.0, 7.0, 1.0);
     drawCube(0.780, 0.082, 0.522);
     glPopMatrix();
 /// middle
@@ -574,13 +586,13 @@ void display(void)
 
     glPushMatrix();
     glTranslatef(6, 7, -15);
-    glScalef(14.0, 6.0, 1.0);
+    glScalef(24.0, 6.0, 1.0);
     drawCube(0.780, 0.082, 0.522);
     glPopMatrix();
 /// top
     glPushMatrix();
     glTranslatef(-20, 13, -15);
-    glScalef(40.0, 7.0, 1.0);
+    glScalef(50.0, 7.0, 1.0);
     drawCube(0.780, 0.082, 0.522);
     glPopMatrix();
 /// barrier
@@ -610,7 +622,7 @@ void display(void)
     glBindTexture(GL_TEXTURE_2D,3);
     glPushMatrix();
     glTranslatef(-20, 0, 14);
-    glScalef(40.0, 20.0, 1.0);
+    glScalef(50.0, 20.0, 1.0);
     drawCube(0.000, 0.000, 0.502);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
@@ -619,7 +631,7 @@ void display(void)
     glBindTexture(GL_TEXTURE_2D,3);
     glPushMatrix();
     glTranslatef(-20, 20, -15);
-    glScalef(40.0, 1.0, 30.0);
+    glScalef(50.0, 1.0, 30.0);
     drawCube(0.502, 0.502, 0.502);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
@@ -708,6 +720,32 @@ void display(void)
     glPopMatrix();
     glPushMatrix();
     glTranslatef(-7.5,0,5);
+    chair();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15,0,-2);
+    table();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(15,0,-9);
+    table();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(15,0,5);
+    table();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15,0,-2);
+    chair();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(15,0,-9);
+    chair();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(15,0,5);
     chair();
     glPopMatrix();
 
@@ -962,15 +1000,15 @@ int main(int argc, char *argv[])
     glutInitWindowSize(windowHeight, windowWidth);
     glutCreateWindow("ClassRoom Design OpenGL");
 
-    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\wall7.bmp");
-    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\wall2.bmp");
-    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\wall4.bmp");
-    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\wall8.bmp");
-    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\bb3.bmp");
-    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\test2.bmp");
-    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\leg1.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\lab 02 assignment\\Lab03Assignment\\BMP\\wall7.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\lab 02 assignment\\Lab03Assignment\\BMP\\wall2.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\lab 02 assignment\\Lab03Assignment\\BMP\\wall4.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\lab 02 assignment\\Lab03Assignment\\BMP\\wall8.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\lab 02 assignment\\Lab03Assignment\\BMP\\bb3.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\lab 02 assignment\\Lab03Assignment\\BMP\\test2.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\lab 02 assignment\\Lab03Assignment\\BMP\\leg1.bmp");
     //LoadTexture("F:\\Study\\4.2\\lab\\lab 02 assignment\\Lab03Assignment\\BMP\\test.bmp");
-    LoadTexture("F:\\Study\\4.2\\lab\\Classroom Design OpenGL\\ClassRoomGraphicsDesign\\BMP\\leg3.bmp");
+    LoadTexture("F:\\Study\\4.2\\lab\\lab 02 assignment\\Lab03Assignment\\BMP\\leg3.bmp");
 
 
     glShadeModel( GL_SMOOTH );
@@ -985,7 +1023,7 @@ int main(int argc, char *argv[])
     light(15);
     //light();
     //light(5);
-    printf("\n\n\n\t\tLighting Assignment 1607032\n\n\n");
+    printf("\n\n\n\t\tClassRoom Design OpenGL\n\n\n");
     printf("1. Use 'w' to look up, 's' to look down, 'd' to look right, and 'a' to look left, 'e'/'r' to zoom\n\n");
     printf("2. Use '+'/'-' to rotate.\n\n\n");
     printf("3. Use 'f' to on/off fan.\n\n\n");
